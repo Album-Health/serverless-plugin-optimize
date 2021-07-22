@@ -17,14 +17,14 @@ This plugin is a child of the great [serverless-optimizer-plugin](https://github
 
  Install via npm in the root of your Serverless service:
 ```
-npm install serverless-plugin-optimize --save-dev
+npm install serverless-plugin-optimize-prisma --save-dev
 ```
 
 * Add the plugin to the `plugins` array in your Serverless `serverless.yml`:
 
 ```yml
 plugins:
-  - serverless-plugin-optimize
+  - serverless-plugin-optimize-prisma
 ```
 
 * Set your packages to be built individually to have smaller packages:

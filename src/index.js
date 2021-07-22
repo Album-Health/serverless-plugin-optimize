@@ -71,6 +71,7 @@ class Optimize {
           extensions: [],
           global: false,
           includePaths: [],
+          includePathsAsSubFolders: false,
           ignore: [],
           minify: true,
           plugins: [],
@@ -118,6 +119,11 @@ class Optimize {
         /** Include paths */
         if (Array.isArray(this.custom.optimize.includePaths)) {
           this.optimize.options.includePaths = this.custom.optimize.includePaths
+        }
+
+        /** Global transforms */
+        if (typeof this.custom.optimize.includePathsAsSubFolders === 'boolean') {
+          this.optimize.options.includePathsAsSubFolders = this.custom.optimize.includePathsAsSubFolders
         }
 
         /** Ignore */
@@ -320,6 +326,7 @@ class Optimize {
       extensions: this.optimize.options.extensions,
       global: this.optimize.options.global,
       includePaths: this.optimize.options.includePaths,
+      includePathsAsSubFolders: this.optimize.options.includePathsAsSubFolders,
       ignore: this.optimize.options.ignore,
       minify: this.optimize.options.minify,
       plugins: this.optimize.options.plugins,
@@ -357,6 +364,11 @@ class Optimize {
         functionOptions.includePaths = optimize.includePaths = functionObject.optimize.includePaths
       }
 
+      /** Include paths as sub folders */
+      if (typeof functionObject.optimize.includePathsAsSubFolders === 'boolean') {
+        functionOptions.includePathsAsSubFolders = optimize.includePathsAsSubFolders = functionObject.optimize.includePathsAsSubFolders
+      }
+
       /** Ignore */
       if (Array.isArray(functionObject.optimize.ignore)) {
         functionOptions.ignore = optimize.ignore = functionObject.optimize.ignore
@@ -388,6 +400,7 @@ class Optimize {
       commondir: false,
       ignoreMissing: true,
       detectGlobals: true,
+      noParse: [require.resolve('@prisma/client/runtime/index.js')],
       insertGlobalVars: { // https://github.com/substack/node-browserify/issues/1472
         process: undefined,
         global: undefined,
@@ -443,8 +456,13 @@ class Optimize {
             includePath = includePath.substring(2)
           }
 
+          let includeDestinationPath = this.getPath(functionOptimizePath + '/' + includePath);
+          if (functionOptions.includePathsAsSubFolders) {
+            includeDestinationPath = path.dirname(functionBundle) + '/' + includePath;
+          }
+
           /** Copy file */
-          return fs.copyAsync(this.getPath(includePath), this.getPath(functionOptimizePath + '/' + includePath))
+          return fs.copyAsync(this.getPath(includePath), includeDestinationPath)
         })
       }
     }).then(() => {
