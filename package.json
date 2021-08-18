@@ -30,7 +30,7 @@
     "babel-preset-minify": "^0.5.0",
     "babelify": "^10.0.0",
     "bluebird": "^3.7.2",
-    "browserify": "^16.2.3",
+    "browserify": "^17.0.0",
     "fs-extra": "^7.0.1",
     "resolve-from": "^4.0.0"
   },
