@@ -308,7 +308,7 @@ class Optimize {
     this.serverless.cli.log('Optimize: ' + functionObject.name)
 
     /** Optimize object */
-    let optimize = {
+    const optimize = {
       bundle: functionBundle,
       handlerOriginal: functionObject.handler,
       handlerOptimize: functionOptimizeHandler + functionObject.handler.substring(functionFileIndex),
@@ -319,7 +319,7 @@ class Optimize {
     }
 
     /** Function optimize options */
-    let functionOptions = {
+    const functionOptions = {
       exclude: this.optimize.options.exclude,
       external: this.optimize.options.external,
       externalPaths: Object.assign({}, this.optimize.options.externalPaths),
@@ -456,9 +456,9 @@ class Optimize {
             includePath = includePath.substring(2)
           }
 
-          let includeDestinationPath = this.getPath(functionOptimizePath + '/' + includePath);
+          let includeDestinationPath = this.getPath(functionOptimizePath + '/' + includePath)
           if (functionOptions.includePathsAsSubFolders) {
-            includeDestinationPath = path.dirname(functionBundle) + '/' + includePath;
+            includeDestinationPath = path.dirname(functionBundle) + '/' + includePath
           }
 
           /** Copy file */
