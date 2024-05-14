@@ -404,7 +404,8 @@ class Optimize {
       commondir: false,
       ignoreMissing: true,
       detectGlobals: true,
-      noParse: [require.resolve('@prisma/client/runtime/index.js')],
+      noParse: [],
+      //noParse: [require.resolve('@prisma/client/runtime/index.js')],
       insertGlobalVars: { // https://github.com/substack/node-browserify/issues/1472
         process: undefined,
         global: undefined,
