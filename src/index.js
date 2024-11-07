@@ -440,13 +440,13 @@ class Optimize {
       //which will prevent unwanted code from hitting browserify
       global: true, //functionOptions.global,
       ignore: functionOptions.ignore,
-      plugins: functionOptions.plugins,
-      presets: functionOptions.presets.concat([
+      plugins: functionOptions.plugins.concat([
         //must use this to fix new modules that are using
         //these features.  browserify cannot handle them so
         //need to have babel transpile
         '@babel/plugin-transform-logical-assignment-operators'
-      ])
+      ]),
+      presets: functionOptions.presets
     })
 
     /** Generate bundle */
