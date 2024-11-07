@@ -435,10 +435,18 @@ class Optimize {
     /** Browserify babelify transform */
     bundler.transform(babelify, {
       comments: false,
-      global: functionOptions.global,
+      //defaulting global to true
+      //this will cause it to process ALL the node_modules
+      //which will prevent unwanted code from hitting browserify
+      global: true, //functionOptions.global,
       ignore: functionOptions.ignore,
       plugins: functionOptions.plugins,
-      presets: functionOptions.presets
+      presets: functionOptions.presets.concat([
+        //must use this to fix new modules that are using
+        //these features.  browserify cannot handle them so
+        //need to have babel transpile
+        '@babel/plugin-transform-logical-assignment-operators'
+      ])
     })
 
     /** Generate bundle */
