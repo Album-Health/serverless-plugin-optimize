@@ -18,6 +18,9 @@ const BbPromise = require('bluebird')
 const fs = BbPromise.promisifyAll(require('fs-extra'))
 const path = require('path')
 const resolveFrom = require('resolve-from')
+const replace = require('./replace-imports.js');
+
+
 
 /**
  * @classdesc Bundle, transpile to ES5 and minify your Serverless functions
@@ -32,6 +35,9 @@ class Optimize {
    * @param {!Object} options - Serverless options
    * */
   constructor (serverless, options) {
+    //before we do anything else we need to fix the subpath alias imports in aws-jwt-verify
+    replace.fixJwtVerifyImports();
+
     /** Serverless variables */
     this.serverless = serverless
     this.options = options
@@ -444,7 +450,16 @@ class Optimize {
         //must use this to fix new modules that are using
         //these features.  browserify cannot handle them so
         //need to have babel transpile
-        '@babel/plugin-transform-logical-assignment-operators'
+        '@babel/plugin-transform-logical-assignment-operators',
+        [
+          require.resolve('babel-plugin-module-resolver'),
+          {
+            alias: {
+              "testasdf": "./test"
+            }
+          }
+      
+        ]
       ]),
       presets: functionOptions.presets
     })
