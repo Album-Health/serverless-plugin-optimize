@@ -451,15 +451,6 @@ class Optimize {
         //these features.  browserify cannot handle them so
         //need to have babel transpile
         '@babel/plugin-transform-logical-assignment-operators',
-        [
-          require.resolve('babel-plugin-module-resolver'),
-          {
-            alias: {
-              "testasdf": "./test"
-            }
-          }
-      
-        ]
       ]),
       presets: functionOptions.presets
     })
